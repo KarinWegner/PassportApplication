@@ -19,6 +19,8 @@ namespace PassportApplication.Data
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUserGymClass>()
                 .HasKey(t => new { t.UserId, t.ClassId });
+
+                
         }
     }
 }

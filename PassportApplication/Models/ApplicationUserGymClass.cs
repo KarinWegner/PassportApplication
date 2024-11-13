@@ -8,10 +8,8 @@ namespace PassportApplication.Models
         public int UserId { get; set; }
         public int ClassId { get; set; }
 
-        public string UserName { get; set; }
-        public string ClasssName { get; set; }
-
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
-        public ICollection<GymClass> GymClasses { get; set; }
+        //Navigational properties
+        public ApplicationUser ApplicationUser { get; set; }
+        public GymClass GymClass { get; set; }
     }
 }

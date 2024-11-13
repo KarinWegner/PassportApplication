@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PassportApplication.Data;
 
@@ -11,9 +12,11 @@ using PassportApplication.Data;
 namespace PassportApplication.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241113130629_DatabaseSetupDone")]
+    partial class DatabaseSetupDone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,42 @@ namespace PassportApplication.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ApplicationUserApplicationUserGymClass", b =>
+                {
+                    b.Property<string>("ApplicationUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("BookedClassesUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookedClassesClassId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApplicationUsersId", "BookedClassesUserId", "BookedClassesClassId");
+
+                    b.HasIndex("BookedClassesUserId", "BookedClassesClassId");
+
+                    b.ToTable("ApplicationUserApplicationUserGymClass");
+                });
+
+            modelBuilder.Entity("ApplicationUserGymClassGymClass", b =>
+                {
+                    b.Property<int>("GymClassesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttendeesUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttendeesClassId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GymClassesId", "AttendeesUserId", "AttendeesClassId");
+
+                    b.HasIndex("AttendeesUserId", "AttendeesClassId");
+
+                    b.ToTable("ApplicationUserGymClassGymClass");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -240,18 +279,15 @@ namespace PassportApplication.Data.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationUserId")
+                    b.Property<string>("ClasssName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GymClassId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "ClassId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("GymClassId");
 
                     b.ToTable("ApplicationUserGymClass");
                 });
@@ -281,6 +317,36 @@ namespace PassportApplication.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GymClasses");
+                });
+
+            modelBuilder.Entity("ApplicationUserApplicationUserGymClass", b =>
+                {
+                    b.HasOne("PassportApplication.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PassportApplication.Models.ApplicationUserGymClass", null)
+                        .WithMany()
+                        .HasForeignKey("BookedClassesUserId", "BookedClassesClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationUserGymClassGymClass", b =>
+                {
+                    b.HasOne("PassportApplication.Models.GymClass", null)
+                        .WithMany()
+                        .HasForeignKey("GymClassesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PassportApplication.Models.ApplicationUserGymClass", null)
+                        .WithMany()
+                        .HasForeignKey("AttendeesUserId", "AttendeesClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -332,35 +398,6 @@ namespace PassportApplication.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("PassportApplication.Models.ApplicationUserGymClass", b =>
-                {
-                    b.HasOne("PassportApplication.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("BookedClasses")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PassportApplication.Models.GymClass", "GymClass")
-                        .WithMany("Attendees")
-                        .HasForeignKey("GymClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("GymClass");
-                });
-
-            modelBuilder.Entity("PassportApplication.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("BookedClasses");
-                });
-
-            modelBuilder.Entity("PassportApplication.Models.GymClass", b =>
-                {
-                    b.Navigation("Attendees");
                 });
 #pragma warning restore 612, 618
         }
