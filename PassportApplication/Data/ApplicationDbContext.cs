@@ -12,7 +12,7 @@ namespace PassportApplication.Data
         {
         }
 
-        DbSet<GymClass> GymClasses { get; set; }
+        public DbSet<GymClass> GymClasses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
