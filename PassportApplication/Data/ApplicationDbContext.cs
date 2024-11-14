@@ -13,12 +13,13 @@ namespace PassportApplication.Data
         }
 
         public DbSet<GymClass> GymClasses { get; set; }
+        public DbSet<ApplicationUserGymClass> Bookings{get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUserGymClass>()
-                .HasKey(t => new { t.UserId, t.ClassId });
+                .HasKey(t => new { t.ApplicationUserId, t.GymClassId });
 
                 
         }
