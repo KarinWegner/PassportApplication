@@ -5,7 +5,7 @@ namespace PassportApplication.Models
     public class ApplicationUserGymClass
     {
         //Primary keys
-        public int UserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public int ClassId { get; set; }
 
         //Navigational properties
