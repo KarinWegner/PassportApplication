@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PassportApplication.Models
 {
@@ -6,7 +7,7 @@ namespace PassportApplication.Models
     {
         //Primary keys
         public string ApplicationUserId { get; set; }
-        public int ClassId { get; set; }
+        public int GymClassId { get; set; }
 
         //Navigational properties
         public ApplicationUser ApplicationUser { get; set; }
