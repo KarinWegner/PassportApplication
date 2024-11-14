@@ -1,7 +1,7 @@
-﻿@model PassportApplication.Models.GymClass
-
+﻿@model DetailsGymClassViewModel
 @{
     ViewData["Title"] = "Details";
+
 }
 
 <h1>Details</h1>
@@ -35,6 +35,15 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
     </dl>
+    <div class="UserList">
+        <h5>Booked users:</h5>
+        <ul>
+        @foreach(var item in Model.ScheduledUsers)
+        {
+                <li>@Html.DisplayFor(modelItem =>item.FullName) </li>
+        }
+        </ul>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

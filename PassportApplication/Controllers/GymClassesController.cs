@@ -49,7 +49,17 @@ namespace PassportApplication.Controllers
                 return NotFound();
             }
 
-            return View(gymClass);
+            DetailsGymClassViewModel viewModel = new()
+            {
+                ClassName = gymClass.ClassName,
+                StartTime= gymClass.StartTime,
+                Duration=gymClass.Duration,
+                Description = gymClass.Description,
+                ScheduledUsers = _context.Bookings
+                .Where(b =>b.GymClassId == id)
+                .Select(u =>u.ApplicationUser)
+            };
+            return View(viewModel);
         }
 
         // GET: GymClasses/Create
