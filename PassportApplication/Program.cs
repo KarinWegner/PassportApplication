@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PassportApplication.Data;
+using PassportApplication.Extensions;
 using PassportApplication.Models;
 
 namespace PassportApplication
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,8 @@ namespace PassportApplication
                 app.UseHsts();
             }
 
+            await app.SeedDataAsync();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -45,7 +48,7 @@ namespace PassportApplication
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=GymClasses}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();
